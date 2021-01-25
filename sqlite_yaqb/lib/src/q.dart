@@ -41,6 +41,12 @@ class Q {
   static SqlCondition or(List<SqlCondition> conditions) =>
       SqlCondition.or(conditions);
 
+  static SqlCondition isNull(String columnWithAlias) =>
+      SqlCondition.isNull(columnWithAlias);
+
+  static SqlCondition isNotNull(String columnWithAlias) =>
+      SqlCondition.isNotNull(columnWithAlias);
+
   static SqlColumn column(String name, [String alias]) =>
       SqlColumn(name, null, alias);
 

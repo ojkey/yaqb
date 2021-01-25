@@ -175,6 +175,18 @@ class SqlCondition<T, R> {
     _addArgument(value, converter);
   }
 
+  SqlCondition.isNull(String columnWithAlias) {
+    _left = columnWithAlias;
+    _condition = "IS NULL";
+    _right = '';
+  }
+
+  SqlCondition.isNotNull(String columnWithAlias) {
+    _left = columnWithAlias;
+    _condition = "IS NOT NULL";
+    _right = '';
+  }
+
   _addArgument(T value, [FunctionCallback<T, R> converter]) {
     Object arg = value;
     if (nonNull(converter)) {
