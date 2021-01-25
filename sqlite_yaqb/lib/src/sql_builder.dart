@@ -81,11 +81,11 @@ class SqlBuilder {
     if (_args.isNotEmpty) {
       query += "\n where ${_args.join(' and ')}";
     }
-    if (_orderBy.isNotEmpty) {
-      query += "\n order by ${_orderBy.join(', ')}";
-    }
     if (_groupBy.isNotEmpty) {
       query += "\n group by ${_groupBy.map(toGrouping).join(', ')}";
+    }
+    if (_orderBy.isNotEmpty) {
+      query += "\n order by ${_orderBy.join(', ')}";
     }
     if (nonNull(_limit)) {
       query += "\n limit $_limit";
