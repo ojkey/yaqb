@@ -175,6 +175,23 @@ class SqlCondition<T, R> {
     _addArgument(value, converter);
   }
 
+  SqlCondition.like(String columnWithAlias, T value) {
+    _left = columnWithAlias;
+    _condition = "LIKE";
+    _right = "?";
+    _addArgument(value);
+  }
+
+  SqlCondition.custom(String condition,
+      [T value, FunctionCallback<T, R> converter]) {
+    _left = '';
+    _condition = condition;
+    _right = '';
+    if(nonNull(value)) {
+      _addArgument(value, converter);
+    }
+  }
+
   SqlCondition.isNull(String columnWithAlias) {
     _left = columnWithAlias;
     _condition = "IS NULL";

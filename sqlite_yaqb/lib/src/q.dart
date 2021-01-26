@@ -31,6 +31,13 @@ class Q {
           [FunctionCallback<T, R> converter]) =>
       SqlCondition<T, R>.le(columnWithAlias, value, converter);
 
+  static SqlCondition custom<T,R>(String columnWithAlias,
+  [T value, FunctionCallback<T, R> converter]) =>
+      SqlCondition<T, R>.custom(columnWithAlias, value);
+
+  static SqlCondition like<T>(String columnWithAlias, String value) =>
+      SqlCondition<String, String>.like(columnWithAlias, value);
+
   static SqlCondition inSubQuery(String columnWithAlias, SqlBuilder builder) =>
       SqlCondition.inSubQuery(columnWithAlias, builder);
 
