@@ -217,7 +217,7 @@ class SqlCondition<T, R> {
     _condition = conditions.map((e) => '${e.toCondition()}').join(' or ');
     _right = ")";
     _arguments
-        .add(conditions.map((e) => e.toArguments()).expand((e) => e).toList());
+        .addAll(conditions.map((e) => e.toArguments()).expand((e) => e).toList());
   }
 
   /// Value IN condition
