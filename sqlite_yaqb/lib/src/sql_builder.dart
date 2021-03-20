@@ -2,15 +2,15 @@
 import 'util.dart';
 
 class SqlBuilder {
-  String _from;
+  String? _from;
   List<String> _columns = [];
   List<String> _joins = [];
   List<String> _args = [];
-  List<Object> _values = [];
+  List<Object?> _values = [];
   List<SqlColumnSort> _orderBy = [];
   List<SqlColumn> _groupBy = [];
-  int _limit;
-  int _offset;
+  int? _limit;
+  int? _offset;
 
   SqlBuilder.select(String fromTable, String alias) {
     _from = "$fromTable $alias";
@@ -21,7 +21,7 @@ class SqlBuilder {
     _values.addAll(source._values);
   }
 
-  SqlBuilder column(String name, [String alias]) {
+  SqlBuilder column(String name, [String? alias]) {
     if (nonNull(alias)) {
       name = "$name $alias";
     }
@@ -98,7 +98,7 @@ class SqlBuilder {
 
   String toGrouping(SqlColumn c) => c._toGrouping();
 
-  List<Object> toArguments() => _values;
+  List<Object?> toArguments() => _values;
 }
 
 class SqlJoinBuilder {
@@ -138,13 +138,13 @@ class SqlJoinOnBuilder {
 }
 
 class SqlCondition<T, R> {
-  String _left;
-  String _right;
-  String _condition;
-  List<Object> _arguments = [];
+  String? _left;
+  String? _right;
+  String? _condition;
+  List<Object?> _arguments = [];
 
   SqlCondition.eq(String columnWithAlias, T value,
-      [FunctionCallback<T, R> converter]) {
+      [FunctionCallback<T?, R>? converter]) {
     _left = columnWithAlias;
     _condition = "=";
     _right = "?";
@@ -152,7 +152,7 @@ class SqlCondition<T, R> {
   }
 
   SqlCondition.ge(String columnWithAlias, T value,
-      [FunctionCallback<T, R> converter]) {
+      [FunctionCallback<T?, R>? converter]) {
     _left = columnWithAlias;
     _condition = ">=";
     _right = "?";
@@ -160,7 +160,7 @@ class SqlCondition<T, R> {
   }
 
   SqlCondition.gt(String columnWithAlias, T value,
-      [FunctionCallback<T, R> converter]) {
+      [FunctionCallback<T?, R>? converter]) {
     _left = columnWithAlias;
     _condition = ">";
     _right = "?";
@@ -168,7 +168,7 @@ class SqlCondition<T, R> {
   }
 
   SqlCondition.le(String columnWithAlias, T value,
-      [FunctionCallback<T, R> converter]) {
+      [FunctionCallback<T?, R>? converter]) {
     _left = columnWithAlias;
     _condition = "<=";
     _right = "?";
@@ -183,7 +183,7 @@ class SqlCondition<T, R> {
   }
 
   SqlCondition.custom(String condition,
-      [T value, FunctionCallback<T, R> converter]) {
+      [T? value, FunctionCallback<T?, R>? converter]) {
     _left = '';
     _condition = condition;
     _right = '';
@@ -204,10 +204,10 @@ class SqlCondition<T, R> {
     _right = '';
   }
 
-  _addArgument(T value, [FunctionCallback<T, R> converter]) {
-    Object arg = value;
+  _addArgument(T? value, [FunctionCallback<T?, R>? converter]) {
+    Object? arg = value;
     if (nonNull(converter)) {
-      arg = converter(value);
+      arg = converter!(value);
     }
     _arguments.add(arg);
   }
@@ -230,13 +230,13 @@ class SqlCondition<T, R> {
 
   /// Value IN condition
   SqlCondition.inValues(String columnWithAlias, List<T> values,
-      [FunctionCallback<T, R> converter]) {
+      [FunctionCallback<T, R>? converter]) {
     _left = columnWithAlias;
     _condition = "IN";
     _right = "(" + values.map((e) => '?').join(',') + ")";
-    List<Object> args = values;
+    List<Object?> args = values;
     if (nonNull(converter)) {
-      args = values.map(converter).toList();
+      args = values.map(converter!).toList();
     }
     _arguments.addAll(args);
   }
@@ -249,13 +249,13 @@ class SqlCondition<T, R> {
 
   String toCondition() => '$_left $_condition $_right';
 
-  List<Object> toArguments() => _arguments;
+  List<Object?> toArguments() => _arguments;
 }
 
 class SqlColumn {
-  final String _tableAlias;
+  final String? _tableAlias;
   final String _name;
-  final String _alias;
+  final String? _alias;
   final bool _distinct;
   final List<String> _functions;
 
@@ -316,7 +316,7 @@ enum SqlSort {
 
 extension SortType on SqlSort {
 
-  String get name {
+  String? get name {
     switch (this) {
       case SqlSort.ASC:
         return 'asc';

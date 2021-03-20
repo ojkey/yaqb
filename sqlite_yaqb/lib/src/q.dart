@@ -16,23 +16,23 @@ class Q {
       SqlJoinBuilder.leftJoin(toTable, toAlias);
 
   static SqlCondition eq<T, R>(String columnWithAlias, T value,
-          [FunctionCallback<T, R> converter]) =>
+          [FunctionCallback<T?, R>? converter]) =>
       SqlCondition<T, R>.eq(columnWithAlias, value, converter);
 
   static SqlCondition gt<T, R>(String columnWithAlias, T value,
-          [FunctionCallback<T, R> converter]) =>
+          [FunctionCallback<T?, R>? converter]) =>
       SqlCondition<T, R>.gt(columnWithAlias, value, converter);
 
   static SqlCondition ge<T, R>(String columnWithAlias, T value,
-          [FunctionCallback<T, R> converter]) =>
+          [FunctionCallback<T?, R>? converter]) =>
       SqlCondition<T, R>.ge(columnWithAlias, value, converter);
 
   static SqlCondition le<T, R>(String columnWithAlias, T value,
-          [FunctionCallback<T, R> converter]) =>
+          [FunctionCallback<T?, R>? converter]) =>
       SqlCondition<T, R>.le(columnWithAlias, value, converter);
 
   static SqlCondition custom<T,R>(String columnWithAlias,
-  [T value, FunctionCallback<T, R> converter]) =>
+  [T? value, FunctionCallback<T, R>? converter]) =>
       SqlCondition<T, R>.custom(columnWithAlias, value);
 
   static SqlCondition like<T>(String columnWithAlias, String value) =>
@@ -42,7 +42,7 @@ class Q {
       SqlCondition.inSubQuery(columnWithAlias, builder);
 
   static SqlCondition inValues<T, R>(String columnWithAlias, List<T> values,
-          [FunctionCallback<T, R> converter]) =>
+          [FunctionCallback<T, R>? converter]) =>
       SqlCondition<T, R>.inValues(columnWithAlias, values, converter);
 
   static SqlCondition or(List<SqlCondition> conditions) =>
@@ -54,10 +54,10 @@ class Q {
   static SqlCondition isNotNull(String columnWithAlias) =>
       SqlCondition.isNotNull(columnWithAlias);
 
-  static SqlColumn column(String name, [String alias]) =>
+  static SqlColumn column(String name, [String? alias]) =>
       SqlColumn(name, null, alias);
 
   static SqlColumn tableColumn(String tableAlias, String name,
-          [String alias]) =>
+          [String? alias]) =>
       SqlColumn(name, tableAlias, alias);
 }
